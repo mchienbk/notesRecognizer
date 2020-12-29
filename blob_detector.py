@@ -15,11 +15,11 @@ def detect_blobs(input_image, staffs):
     im_with_blobs = input_image.copy()
 
     im_inv = (255 - im_with_blobs)
-    kernel = cv2.getStructuringElement(ksize=(1, int(im_inv.shape[0] / 500)), shape=cv2.MORPH_RECT)
+    kernel = cv2.getStructuringElement(ksize=(7, int(im_inv.shape[0] / 500)), shape=cv2.MORPH_RECT)
     horizontal_lines = cv2.morphologyEx(im_inv, cv2.MORPH_OPEN, kernel)
     horizontal_lines = (255 - horizontal_lines)
 
-    kernel = cv2.getStructuringElement(ksize=(int(im_inv.shape[1] / 350), 1), shape=cv2.MORPH_RECT)
+    kernel = cv2.getStructuringElement(ksize=(int(im_inv.shape[1] / 350), 7), shape=cv2.MORPH_RECT)
     vertical_lines = cv2.morphologyEx(255 - horizontal_lines, cv2.MORPH_OPEN, kernel)
     vertical_lines = (255 - vertical_lines)
 

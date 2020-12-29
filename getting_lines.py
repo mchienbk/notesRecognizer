@@ -15,7 +15,7 @@ def preprocess_image(image):
         print("Preprocessing image.")
     gray = image.copy()
     _, thresholded = cv2.threshold(gray, THRESHOLD_MIN, THRESHOLD_MAX, cv2.THRESH_BINARY)
-    element = np.ones((3, 3))
+    element = np.ones((5, 5))
     thresholded = cv2.erode(thresholded, element)
     edges = cv2.Canny(thresholded, 10, 100, apertureSize=3)
     return edges, thresholded

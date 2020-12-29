@@ -53,6 +53,32 @@ bass_key = {
 }
 
 
+key = {
+    -6: 'E6',
+    -5: 'D6',
+    -4: 'C6',
+    -3: 'B5',
+    -2: 'A5',
+    -1: 'G5',
+    0:  'F5',
+    1:  'E5',
+    2:  'D5',
+    3:  'C5',
+    4:  'B4',
+    5:  'A4',
+    6:  'G4',
+    7:  'F4',
+    8:  'E4',
+    9:  'D4',
+    10: 'C4',
+    11: 'B3',
+    12: 'A3',
+    13: 'G3',
+    14: 'F3',
+}
+
+
+
 def extract_notes(blobs, staffs, image):
     clef = classify_clef(image, staffs[0])
     notes = []
@@ -112,7 +138,8 @@ class Note:
             return distances_from_lines[0][0]
 
     def detect_pitch(self, position_on_staff):
-        if self.clef == 'violin':
-            return violin_key[position_on_staff]
-        else:
-            return bass_key[position_on_staff]
+        # if self.clef == 'violin':
+        #     return violin_key[position_on_staff]
+        # else:
+        #     return bass_key[position_on_staff]
+        return key[position_on_staff]
