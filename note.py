@@ -4,80 +4,29 @@ from config import NOTE_PITCH_DETECTION_MIDDLE_SNAPPING, VERBOSE
 from hu import classify_clef
 from util import distance
 
-violin_key = {
-    -6: 'C6',
-    -5: 'D6',
-    -4: 'C6',
-    -3: 'H5',
-    -2: 'A5',
-    -1: 'G5',
-    0:  'F5',
-    1:  'E5',
-    2:  'D5',
-    3:  'C5',
-    4:  'H4',
-    5:  'A4',
-    6:  'G4',
-    7:  'F4',
-    8:  'E4',
-    9:  'D4',
-    10: 'C4',
-    11: 'H3',
-    12: 'A3',
-    13: 'G3',
-    14: 'F3',
-}
-
-bass_key = {
-    -6: 'G3',
-    -5: 'F3',
-    -4: 'E3',
-    -3: 'D3',
-    -2: 'C3',
-    -1: 'H3',
-    0:  'A3',
-    1:  'G3',
-    2:  'F3',
-    3:  'E3',
-    4:  'D3',
-    5:  'C3',
-    6:  'H2',
-    7:  'A2',
-    8:  'G2',
-    9:  'F2',
-    10: 'E2',
-    11: 'D2',
-    12: 'C2',
-    13: 'H1',
-    14: 'A1',
-}
-
-
 key = {
-    -6: 'E6',
-    -5: 'D6',
-    -4: 'C6',
-    -3: 'B5',
-    -2: 'A5',
-    -1: 'G5',
-    0:  'F5',
-    1:  'E5',
-    2:  'D5',
-    3:  'C5',
-    4:  'B4',
-    5:  'A4',
-    6:  'G4',
-    7:  'F4',
-    8:  'E4',
-    9:  'D4',
-    10: 'C4',
-    11: 'B3',
-    12: 'A3',
-    13: 'G3',
-    14: 'F3',
+    -6: 'MI',
+    -5: 'RE',
+    -4: 'DO',
+    -3: 'SI',
+    -2: 'LA',
+    -1: 'SO',
+    0:  'FA',
+    1:  'MI',
+    2:  'RE',
+    3:  'DO',
+    4:  'SI',
+    5:  'LA',
+    6:  'SO',
+    7:  'FA',
+    8:  'MI',
+    9:  'RE',
+    10: 'DO',
+    11: 'SI',
+    12: 'LA',
+    13: 'SO',
+    14: 'FA',
 }
-
-
 
 def extract_notes(blobs, staffs, image):
     clef = classify_clef(image, staffs[0])
@@ -98,9 +47,9 @@ def draw_notes_pitch(image, notes):
     im_with_pitch = image.copy()
     im_with_pitch = cv2.cvtColor(im_with_pitch, cv2.COLOR_GRAY2BGR)
     for note in notes:
-        cv2.putText(im_with_pitch, note.pitch, (int(note.center[0]) - 5, int(note.center[1]) + 35),
-                    fontFace=cv2.FONT_HERSHEY_SIMPLEX,
-                    fontScale=1.5, color=(255, 0, 0))
+        cv2.putText(im_with_pitch, note.pitch, (int(note.center[0])-20, int(note.center[1]) + 45),
+                    fontFace=cv2.FONT_HERSHEY_COMPLEX,
+                    fontScale=1, color=(255, 0, 0))
     cv2.imwrite('output/9_with_pitch.png', im_with_pitch)
 
 
@@ -138,8 +87,5 @@ class Note:
             return distances_from_lines[0][0]
 
     def detect_pitch(self, position_on_staff):
-        # if self.clef == 'violin':
-        #     return violin_key[position_on_staff]
-        # else:
-        #     return bass_key[position_on_staff]
+
         return key[position_on_staff]

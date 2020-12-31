@@ -23,7 +23,7 @@ def main():
 
 def recognizer():
 
-    image = cv2.imread('samples/moon.png')
+    image = cv2.imread('samples/sheet.jpg')
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     _, adjusted_photo = cv2.threshold(image, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
 
@@ -38,5 +38,5 @@ def recognizer():
 
 
 if __name__ == "__main__":
-    # recognizer()
-    main()
+    recognizer()
+    # main()
