@@ -4,29 +4,53 @@ from config import NOTE_PITCH_DETECTION_MIDDLE_SNAPPING, VERBOSE
 from hu import classify_clef
 from util import distance
 
-key = {
-    -6: 'MI',
-    -5: 'RE',
-    -4: 'DO',
-    -3: 'SI',
-    -2: 'LA',
-    -1: 'SO',
-    0:  'FA',
-    1:  'MI',
-    2:  'RE',
-    3:  'DO',
-    4:  'SI',
-    5:  'LA',
-    6:  'SO',
-    7:  'FA',
-    8:  'MI',
-    9:  'RE',
-    10: 'DO',
-    11: 'SI',
-    12: 'LA',
-    13: 'SO',
-    14: 'FA',
+violin_key = {
+    -6: ('C6', 88),
+    -5: ('D6', 86),
+    -4: ('C6', 84),
+    -3: ('B5', 83),
+    -2: ('A5', 81),
+    -1: ('G5', 79),
+    0:  ('F5', 77),
+    1:  ('E5', 76),
+    2:  ('D5', 74),
+    3:  ('C5', 72),
+    4:  ('B4', 71),
+    5:  ('A4', 69),
+    6:  ('G4', 67),
+    7:  ('F4', 65),
+    8:  ('E4', 64),
+    9:  ('D4', 62),
+    10: ('C4', 60),
+    11: ('B3', 59),
+    12: ('A3', 57),
+    13: ('G3', 55),
+    14: ('F3', 53)
 }
+
+# key = {
+#     -6: 'MI',
+#     -5: 'RE',
+#     -4: 'DO',
+#     -3: 'SI',
+#     -2: 'LA',
+#     -1: 'SO',
+#     0:  'FA',
+#     1:  'MI',
+#     2:  'RE',
+#     3:  'DO',
+#     4:  'SI',
+#     5:  'LA',
+#     6:  'SO',
+#     7:  'FA',
+#     8:  'MI',
+#     9:  'RE',
+#     10: 'DO',
+#     11: 'SI',
+#     12: 'LA',
+#     13: 'SO',
+#     14: 'FA',
+# }
 
 def extract_notes(blobs, staffs, image):
     clef = classify_clef(image, staffs[0])
@@ -47,10 +71,13 @@ def draw_notes_pitch(image, notes):
     im_with_pitch = image.copy()
     im_with_pitch = cv2.cvtColor(im_with_pitch, cv2.COLOR_GRAY2BGR)
     for note in notes:
+        # print(note.pitch)
         cv2.putText(im_with_pitch, note.pitch, (int(note.center[0])-20, int(note.center[1]) + 45),
                     fontFace=cv2.FONT_HERSHEY_COMPLEX,
                     fontScale=1, color=(255, 0, 0))
     cv2.imwrite('output/9_with_pitch.png', im_with_pitch)
+    
+    return im_with_pitch
 
 
 # noinspection PyMethodMayBeStatic
@@ -64,6 +91,7 @@ class Note:
         self.center = blob.pt
         self.clef = clef
         self.pitch = self.detect_pitch(self.position_on_staff)
+        self.pitch_rate = self.detect_pitch_rate(self.position_on_staff)
 
     def detect_position_on_staff(self, staff, blob):
         distances_from_lines = []
@@ -88,4 +116,8 @@ class Note:
 
     def detect_pitch(self, position_on_staff):
 
-        return key[position_on_staff]
+        return violin_key[position_on_staff][0]
+
+    def detect_pitch_rate(self, position_on_staff):
+
+        return violin_key[position_on_staff][1]
