@@ -37,6 +37,9 @@ def recognizer():
     notes = extract_notes(blobs, staffs, adjusted_photo)
     image_with_notes = draw_notes_pitch(adjusted_photo, notes)
 
+    # Print notes
+    for note in notes: 
+        print(note.pitch, "-")
 
     # Midi-file
     track    = 0
